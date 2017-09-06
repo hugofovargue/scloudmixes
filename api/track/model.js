@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 const trackSchema = new mongoose.Schema({
-  url: String,
-  user: String,
-  title: String,
-  mixes: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Mix',
-  }],
+  url: { type: String, required: true },
+  user: { type: String, required: true },
+  title: { type: String, required: true },
+  mixes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Mix' }],
 }, {
   collection: 'tracks',
 });

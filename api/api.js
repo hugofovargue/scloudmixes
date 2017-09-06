@@ -1,14 +1,11 @@
 const express = require('express');
+
 const router = express.Router();
 
 const mixController = require('./mix/controller.js');
 const trackController = require('./track/controller.js');
 
-router.get('/', (req, res) => {
-  res.json({
-    success: 'API entry point',
-  });
-});
+router.get('/', (req, res) => res.json({ Success: 'API entry point' }));
 
 // Mix routes
 router.get('/mixes', mixController.find);
