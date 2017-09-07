@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-size: 100%;
+      }
+      #status {
+        /* avoid an excessively wide status text */
+        display: inline-block;
+        min-width: 200px;
+        max-width: 300px;
+      }
+      #status-mix {
+        color: orange;
+      }
+      #status-duration {
+        color: grey;
+        font-size: 12px;
+      }
+      #status-track {
+        color: black;
+      }
+    </style>
+
+    <script src="popup.js"></script>
+  </head>
+  <body>
+    <a href="https://soundcloud.com/klimeks/tokyo-train">
+      <div id="status">
+          <span id="status-mix">Wavemob001 </span>
+          <span id="status-duration">0:00-1:35</span></br>
+          <span id="status-track">Tokyo Train by Klimeks</span>
+      </div>
+    </a>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "SounCloud Mixes",
+  "description": "Get realtime tracklist whilst listening on SoundCloud.",
+  "version": "0.0.1",
+
+  "browser_action": {
+    "default_icon": "/icons/icon.png",
+    "default_popup": "/popup/index.html"
+  },
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["http://soundcloud.com/*", "https://soundcloud.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+
+  "permissions": [
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ]
+}
