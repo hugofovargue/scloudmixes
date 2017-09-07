@@ -8,13 +8,16 @@ exports.find = (req, res) => {
   });
 };
 
-exports.findById = (req, res) => {
-  Mix.findOne({ _id: req.params.id }, (err, mix) => {
-    if (err) res.json({ Success: false, Response: err });
-    res.json({ Success: true, Response: mix });
-  });
+exports.findByUrl = (req, res) => {
+  Mix
+    .findOne({ url: req.params.url })
+    .populate('tracks.track')
+    .exec((err, mix) => {
+      if (err) res.json({ Success: false, Response: err });
+      res.json({ Success: true, Response: mix });
+    });
 };
-// TODO: Add population to single retrieval
+// TODO: Prevent ID being passed back in api request
 
 exports.create = (req, res) => {
   Mix.create(req.body, (err, mix) => {
@@ -24,7 +27,7 @@ exports.create = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Mix.findOne({ _id: req.params.id }, (err, mix) => {
+  Mix.findOne({ url: req.params.url }, (err, mix) => {
     if (err) res.json({ Success: false, Response: err });
     Mix.remove(mix, (err, rm) => {
       if (err) res.json({ Success: false, Response: err });
@@ -34,17 +37,19 @@ exports.delete = (req, res) => {
 };
 
 // Pushes _id reference into mix.tracks array; to be used with populate retrieval.
-// Future optimisation with async or refactoring with FindOneAndUpdate,
-// to prevent callback pyramid.
+// Future optimisation with async or refactoring with FindOneAndUpdate, to prevent
+// callback pyramid.
 exports.addTrack = (req, res) => {
-  Mix.findOne({ _id: req.params.id }, (err, mix) => {
+  Mix.findOne({ url: req.params.url }, (err, mix) => {
     if (err) res.json({ Success: false, Response: err });
-    Track.findById({ _id: req.body.id }, (err, track) => {
+    Track.findOne({ url: req.body.url }, (err, track) => {
       if (err) res.json({ Success: false, Response: err });
+      console.log('this is track...');
+      console.log(track);
       mix.update({
         $addToSet: {
           tracks: {
-            track: req.body.id,
+            track: track.id,
             start: req.body.start,
             end: req.body.end,
           },
@@ -54,7 +59,7 @@ exports.addTrack = (req, res) => {
         console.log(raw);
         track.update({
           $addToSet: {
-            mixes: req.params.id,
+            mixes: mix.id,
           },
         }, (err, raw) => {
           if (err) res.json({ Success: false, Response: err });

@@ -9,15 +9,15 @@ router.get('/', (req, res) => res.json({ Success: 'API entry point' }));
 
 // Mix routes
 router.get('/mixes', mixController.find);
-router.get('/mixes/:id', mixController.findById);
+router.get('/mixes/:url', mixController.findByUrl);
 router.post('/mixes', mixController.create);
-router.delete('/mixes/:id', mixController.delete);
-router.put('/mixes/:id', mixController.addTrack);
+router.delete('/mixes/:url', mixController.delete);
+router.put('/mixes/:url', mixController.addTrack);
 
 // Track routes
 router.get('/tracks', trackController.find);
-router.get('/tracks/:id', trackController.findById);
+router.get('/tracks/:url', trackController.findByUrl);
 router.post('/tracks', trackController.create);
-router.delete('/tracks/:id', trackController.delete);
+router.delete('/tracks/:url', trackController.delete);
 
 module.exports = router;

@@ -1,0 +1,12 @@
+extends layout.pug
+
+block content
+  h1= title
+  h2= user
+  p= duration + ' duration'
+
+  ul
+    each tr in tracks
+      li
+        span= `[${tr.start} - ${tr.end}]`
+        span= `${tr.track.title} by ${tr.track.user}`

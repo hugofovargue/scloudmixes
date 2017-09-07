@@ -1,0 +1,12 @@
+extends layout.pug
+
+block content
+  h1= title
+  h3= subheading
+
+  // form
+  form(method='POST' action'/upload')
+    input(type='text' placeholder='Copy the soundcloud link' name='url')
+    input(type='text' placeholder='Title' name='title')
+    input(type='text' placeholder='User' name='user')
+    button(type='submit') Submit

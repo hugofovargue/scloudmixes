@@ -1,0 +1,11 @@
+extends layout.pug
+
+block content
+  h1= title
+  h2= user
+  p= 'featured in the following mixes:'
+
+  ul
+    each mix in mixes
+      li
+        span= `${mix.title} by ${mix.user}`

@@ -7,11 +7,14 @@ exports.find = (req, res) => {
   });
 };
 
-exports.findById = (req, res) => {
-  Track.findOne({ _id: req.params.id }, (err, track) => {
-    if (err) res.json({ Success: false, Response: err });
-    res.json({ Success: true, Response: track });
-  });
+exports.findByUrl = (req, res) => {
+  Track
+    .findOne({ url: req.params.url })
+    .populate('mixes')
+    .exec((err, track) => {
+      if (err) res.json({ Success: false, Response: err });
+      res.json({ Success: true, Response: track });
+    });
 };
 
 exports.create = (req, res) => {
@@ -22,7 +25,7 @@ exports.create = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Track.findOne({ _id: req.params.id }, (err, track) => {
+  Track.findOne({ url: req.params.url }, (err, track) => {
     if (err) res.json({ Success: false, Response: err });
     Track.remove(track, (err, rm) => {
       if (err) res.json({ Success: false, Response: err });
