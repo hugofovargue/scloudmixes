@@ -4,17 +4,19 @@ const Track = require('../track/model.js');
 exports.find = (req, res) => {
   Mix.find({}, (err, mixes) => {
     if (err) res.json({ Success: false, Response: err });
-    res.json({ Success: true, Response: mixes });
+    else res.json({ Success: true, Response: mixes });
   });
 };
 
 exports.findByUrl = (req, res) => {
+  console.log(req.params);
   Mix
-    .findOne({ url: req.params.url })
+    .findOne({ url: `${req.params.url}${req.params[0]}` })
     .populate('tracks.track')
     .exec((err, mix) => {
       if (err) res.json({ Success: false, Response: err });
-      res.json({ Success: true, Response: mix });
+      else if (!mix) res.json({ Success: false, Response: 'no results found' });
+      else res.json({ Success: true, Response: mix });
     });
 };
 // TODO: Prevent ID being passed back in api request
@@ -27,7 +29,8 @@ exports.create = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Mix.findOne({ url: req.params.url }, (err, mix) => {
+  console.log(req.params);
+  Mix.findOne({ url: `${req.params.url}${req.params[0]}` }, (err, mix) => {
     if (err) res.json({ Success: false, Response: err });
     Mix.remove(mix, (err, rm) => {
       if (err) res.json({ Success: false, Response: err });
@@ -40,11 +43,10 @@ exports.delete = (req, res) => {
 // Future optimisation with async or refactoring with FindOneAndUpdate, to prevent
 // callback pyramid.
 exports.addTrack = (req, res) => {
-  Mix.findOne({ url: req.params.url }, (err, mix) => {
+  Mix.findOne({ url: `${req.params.url}${req.params[0]}` }, (err, mix) => {
     if (err) res.json({ Success: false, Response: err });
     Track.findOne({ url: req.body.url }, (err, track) => {
       if (err) res.json({ Success: false, Response: err });
-      console.log('this is track...');
       console.log(track);
       mix.update({
         $addToSet: {

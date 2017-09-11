@@ -56,7 +56,7 @@ router.get('/track/:track', (req, res) => {
     });
 });
 
-router.get('/track/:track/*', (req, res) => {
+router.get('/track/:track/*/', (req, res) => {
   res.redirect(`../${req.params.track}`);
 });
 

@@ -3,7 +3,7 @@ const Track = require('./model.js');
 exports.find = (req, res) => {
   Track.find({}, (err, tracks) => {
     if (err) res.json({ Success: false, Response: err });
-    res.json({ Success: true, Response: tracks });
+    else res.json({ Success: true, Response: tracks });
   });
 };
 
@@ -13,7 +13,8 @@ exports.findByUrl = (req, res) => {
     .populate('mixes')
     .exec((err, track) => {
       if (err) res.json({ Success: false, Response: err });
-      res.json({ Success: true, Response: track });
+      else if (!track) res.json({ Success: false, Response: 'No results found' });
+      else res.json({ Success: true, Response: track });
     });
 };
 
